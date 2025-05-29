@@ -1,0 +1,17 @@
+{
+    "extends": "standard-with-typescript",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/return-await": "off"
+    },
+    "ignorePatterns": [
+        "dist",
+        "src/**/*.js",
+        "src/generated/*"
+    ]
+
+}

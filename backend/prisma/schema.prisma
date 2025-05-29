@@ -1,0 +1,158 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Schedule {
+  id            String         @id @default(uuid())
+  startTime     String
+  endTime       String
+  users         User[]         @relation("UserScheduleRelation")
+  userSchedules UserSchedule[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Specialty {
+  id             String   @id @default(uuid())
+  specialty_name String
+  users          User[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model UserType {
+  id        String   @id @default(uuid())
+  type_name String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MedicalAppointmentStatus {
+  id           String               @id @default(uuid())
+  status_name  String
+  appointments MedicalAppointment[] @relation("StatusAppointments")
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model Diagnosis {
+  id                    String               @id @default(uuid())
+  diagnosis_description String
+  appointments          MedicalAppointment[]
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+}
+
+model Hospital {
+  id            String               @id @default(uuid())
+  name          String
+  clinics       Clinic[]
+  userHospitals UserHospital[]
+  appointments  MedicalAppointment[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+}
+
+model Clinic {
+  id          String       @id @default(uuid())
+  hospital_id String
+  clinic_code String
+  hospital    Hospital     @relation(fields: [hospital_id], references: [id])
+  userClinics UserClinic[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model User {
+  id           String  @id @default(uuid())
+  firebase_uid String  @unique
+  user_type_id String
+  specialty_id String?
+  schedule_id  String?
+
+  full_name String
+  phone     String
+
+  user_type UserType   @relation(fields: [user_type_id], references: [id])
+  specialty Specialty? @relation(fields: [specialty_id], references: [id])
+  schedule  Schedule?  @relation("UserScheduleRelation", fields: [schedule_id], references: [id])
+
+  userSchedules       UserSchedule[]
+  userHospitals       UserHospital[]
+  userClinics         UserClinic[]
+  patientAppointments MedicalAppointment[] @relation("PatientAppointments")
+  doctorAppointments  MedicalAppointment[] @relation("DoctorAppointments")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserSchedule {
+  id          String @id @default(uuid())
+  user_id     String
+  schedule_id String
+  start_time  String
+  end_time    String
+
+  user     User     @relation(fields: [user_id], references: [id])
+  schedule Schedule @relation(fields: [schedule_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserHospital {
+  id          String @id @default(uuid())
+  user_id     String
+  hospital_id String
+
+  user     User     @relation(fields: [user_id], references: [id])
+  hospital Hospital @relation(fields: [hospital_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserClinic {
+  id        String @id @default(uuid())
+  user_id   String
+  clinic_id String
+
+  user   User   @relation(fields: [user_id], references: [id])
+  clinic Clinic @relation(fields: [clinic_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MedicalAppointment {
+  id                    String   @id @default(uuid())
+  hospital_id           String
+  patient_id            String
+  doctor_id             String
+  diagnosis_id          String
+  appointment_status_id String
+  appointment_date      DateTime
+  appointment_time      String
+
+  hospital  Hospital                 @relation(fields: [hospital_id], references: [id])
+  patient   User                     @relation("PatientAppointments", fields: [patient_id], references: [id])
+  doctor    User                     @relation("DoctorAppointments", fields: [doctor_id], references: [id])
+  diagnosis Diagnosis                @relation(fields: [diagnosis_id], references: [id])
+  status    MedicalAppointmentStatus @relation("StatusAppointments", fields: [appointment_status_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
