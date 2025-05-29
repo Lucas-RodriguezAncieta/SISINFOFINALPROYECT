@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="navbar"> 
   <ul class="nav-links">
     <li><a routerLink="/">Inicio</a></li>
     <li><a routerLink="/nosotros">Nosotros</a></li>
@@ -8,7 +8,7 @@
   </ul>
 
   <div class="nav-actions">
-    <button class="icon-button">
+    <button class="icon-button" aria-label="Buscar">
       🔍
     </button>
 
@@ -16,7 +16,8 @@
       Agendar Cita
     </button>
 
-    <span class="icon-circle">💬</span>
-    <span class="icon-circle gray"></span>
+    <span class="icon-circle" title="Chat">💬</span>
+
+    <a class="icon-circle gray" routerLink="/login" title="Iniciar sesión"></a>
   </div>
 </nav>

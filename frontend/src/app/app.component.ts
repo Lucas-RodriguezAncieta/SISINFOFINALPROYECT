@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './shared/navbar/navbar.component'; // Ajusta la ruta si está en otra carpeta
+import { RouterModule } from '@angular/router';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  imports: [RouterModule, NavbarComponent],
+  templateUrl: './app.component.html'
 })
-export class AppComponent {
-  title = 'mi-app';
-}
+export class AppComponent {}
