@@ -1,1 +1,21 @@
-<p>recuperar-cuenta works!</p>
+<div class="recuperar-container">
+  <h2>Olvidaste tu Cuenta</h2>
+  <p>Ingrese los espacios para Restaurar</p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input formControlName="nombre" type="text" placeholder="Nombre Completo" />
+    <input formControlName="correo" type="email" placeholder="Correo" />
+    <input formControlName="ci" type="text" placeholder="Carnet de identidad" />
+    <input formControlName="password" type="password" placeholder="Nueva Contraseña" />
+    <input formControlName="confirmPassword" type="password" placeholder="Confirmar Contraseña" />
+
+    <button type="submit">Aceptar</button>
+    <button type="button" class="atras" routerLink="/login">Atrás</button>
+  </form>
+
+  <p class="policy-text">
+    By clicking continue, you agree to our
+    <a href="#">Terms of Service</a> and
+    <a href="#">Privacy Policy</a>
+  </p>
+</div>

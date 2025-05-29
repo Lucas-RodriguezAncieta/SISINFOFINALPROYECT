@@ -1,23 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { RecuperarCuentaComponent } from './recuperar-cuenta.component';
+@Component({
+  selector: 'app-recuperar-cuenta',
+  templateUrl: './recuperar-cuenta.component.html',
+  styleUrls: ['./recuperar-cuenta.component.css'],
+})
+export class RecuperarCuentaComponent {
+  form: FormGroup;
 
-describe('RecuperarCuentaComponent', () => {
-  let component: RecuperarCuentaComponent;
-  let fixture: ComponentFixture<RecuperarCuentaComponent>;
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      nombre: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      ci: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    });
+  }
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RecuperarCuentaComponent]
-    })
-    .compileComponents();
+  onSubmit() {
+    if (this.form.valid) {
+      const datos = this.form.value;
+      if (datos.password !== datos.confirmPassword) {
+        alert('Las contraseñas no coinciden');
+        return;
+      }
 
-    fixture = TestBed.createComponent(RecuperarCuentaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+      // Aquí podrías enviar los datos a tu backend:
+      console.log('Datos enviados:', datos);
+    } else {
+      alert('Por favor llena todos los campos correctamente.');
+    }
+  }
+}

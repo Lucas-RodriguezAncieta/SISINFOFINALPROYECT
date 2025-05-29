@@ -1,11 +1,34 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registrarse',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registrarse.component.html',
-  styleUrl: './registrarse.component.css'
+  styleUrls: ['./registrarse.component.css']
 })
 export class RegistrarseComponent {
+  form: FormGroup;
 
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      nombre: ['', Validators.required],
+      ci: ['', Validators.required],
+      sexo: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const datos = this.form.value;
+      console.log('Formulario enviado:', datos);
+      // Aquí puedes hacer la llamada a tu backend (servicio)
+    } else {
+      alert('Por favor completa todos los campos.');
+    }
+  }
 }

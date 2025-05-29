@@ -1,0 +1,65 @@
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 2rem;
+  background-color: #f4f8fc;
+}
+
+.hero-left h1 {
+  font-size: 2.5rem;
+  color: #1e3a8a;
+  margin: 0.5rem 0;
+}
+
+.subheading {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #3b82f6;
+  margin-bottom: 0.5rem;
+}
+
+.hero-right img {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.btn {
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.secondary {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.welcome {
+  text-align: center;
+  padding: 2rem;
+}
+
+.welcome h2 {
+  color: #3b82f6;
+}
+
+.link {
+  color: #2563eb;
+  font-weight: bold;
+  text-decoration: none;
+}
