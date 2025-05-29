@@ -1,6 +1,27 @@
+<div class="breadcrumb">
+  <span>Inicio</span> / <span>Historial</span>
+</div>
+
 <h2>Historial Clínico</h2>
-<ul>
-  <li *ngFor="let consulta of consultas">
-    {{ consulta.titulo }} - {{ consulta.descripcion }}
-  </li>
-</ul>
+
+<div class="contenido-historial">
+  <!-- Menú lateral -->
+  <aside class="menu-servicios">
+    <ul>
+      <li class="servicio activo">🩺 Chequeo Gratuito</li>
+      <li class="servicio">💙 Cardiograma</li>
+      <li class="servicio">🧬 Pruebas de ADN</li>
+      <li class="servicio">🩸 Banco de sangre</li>
+    </ul>
+  </aside>
+
+  <!-- Lista de historial -->
+  <section class="lista-historial">
+    <h3>Historial</h3>
+
+    <div class="consulta" *ngFor="let consulta of consultas">
+      <p><strong>⭐ {{ consulta.titulo }}</strong></p>
+      <p>{{ consulta.descripcion }}</p>
+    </div>
+  </section>
+</div>

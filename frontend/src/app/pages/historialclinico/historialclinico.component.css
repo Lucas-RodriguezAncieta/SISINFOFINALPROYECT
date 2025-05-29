@@ -51,3 +51,56 @@ h2 {
   border-bottom: 1px solid #eee;
   padding: 1rem 0;
 }
+.breadcrumb {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #888;
+  margin-left: 1rem;
+}
+
+h2 {
+  margin-left: 1rem;
+  color: #1e2a73;
+}
+
+.contenido-historial {
+  display: flex;
+  margin: 2rem;
+}
+
+.menu-servicios {
+  width: 200px;
+  margin-right: 2rem;
+}
+
+.menu-servicios ul {
+  list-style: none;
+  padding: 0;
+}
+
+.servicio {
+  background-color: #f5f5f5;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.servicio.activo {
+  background-color: #1e2a73;
+  color: white;
+}
+
+.lista-historial {
+  flex: 1;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ddd;
+}
+
+.consulta {
+  border-bottom: 1px solid #eee;
+  padding: 1rem 0;
+}
