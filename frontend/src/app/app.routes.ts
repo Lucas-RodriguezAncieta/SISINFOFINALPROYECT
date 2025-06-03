@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'recuperar-cuenta', component: RecuperarCuentaComponent },
   { path: 'registrarse', component: RegistrarseComponent },
-  { path: 'historial', component: HistorialClinicoComponent }
+  { path: 'historial', component: HistorialClinicoComponent },
+
 ];
