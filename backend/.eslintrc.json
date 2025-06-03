@@ -4,13 +4,11 @@
         "project": "./tsconfig.json"
     },
     "rules": {
-        "@typescript-eslint/no-floating-promises": "off",
-        "@typescript-eslint/naming-convention": "off",
-        "@typescript-eslint/return-await": "off"
+        "@typescript-eslint/no-floating-promises": "off"
     },
     "ignorePatterns": [
         "dist",
-        "src/**/*.js",
+        "src/*/.js",
         "src/generated/*"
     ]
 
