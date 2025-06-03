@@ -6,10 +6,10 @@ import { RegistrarseComponent } from './pages/registrarse/registrarse.component'
 import { HistorialClinicoComponent } from './pages/historialclinico/historialclinico.component';
 
 export const routes: Routes = [
-  { path: 'inicio', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'recuperar-cuenta', component: RecuperarCuentaComponent },
   { path: 'registrarse', component: RegistrarseComponent },
   { path: 'historial', component: HistorialClinicoComponent },
-  { path: '', redirectTo:'/inicio', pathMatch: 'full'}
+
 ];
