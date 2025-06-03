@@ -1,28 +1,29 @@
-import { Component, Input } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ClinicService } from '../../services/clinic.service';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-home',
-  imports: [RouterModule],
+  standalone: true,                   // Marca como standalone
+  imports: [CommonModule],             // <-- Agrega CommonModule aquí
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  
-  credentials = {
-    id:"",
-    hospital_id:"",
-    clinic_code:"",
-    createdAt:"",
-    updatedAt:""
-  }
-
-  constructor(private clinicService: ClinicService){}
-
-  RegistrarClinica(){
-    this.clinicService.CrearClinica(this.credentials).catch(
-    (response)=>{
-      console.log(response);
-    })
-  }
+  noticias = [
+    {
+      titulo: 'TÍTULO DEL ARTÍCULO',
+      fecha:  'Lun 01, Septiembre 2025 | Salud',
+      img:    'assets/img/doctor1.jpg',
+      comentarios: 3,
+      vistas: 23
+    },
+    {
+      titulo: 'TÍTULO DEL ARTÍCULO',
+      fecha:  'Lun 01, Septiembre 2025 | Salud',
+      img:    'assets/img/doctor2.jpg',
+      comentarios: 5,
+      vistas: 40
+    },
+    // … puedes agregar más objetos
+  ];
 }

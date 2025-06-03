@@ -6,7 +6,8 @@
   </div>
 
   <div class="hero-right">
-    <img src="assets/images/doctor.png" alt="Doctor sonriente" />
+    <a href="https://ibb.co/B2KV1w9Q"><img src="https://i.ibb.co/v4vxtDST/Whats-App-Image-2025-06-03-at-12-35-07.jpg" 
+      alt="medico sonriente"></a>
   </div>
 </section>
 
@@ -26,6 +27,24 @@
     Ubicado en el corazón de Cochabamba, nuestro hospital brinda atención médica de calidad con calidez humana. Contamos con un equipo de profesionales comprometidos con la salud y el bienestar de nuestra comunidad.
   </p>
   <a href="#" class="link">Leer más →</a>
+</section>
+
+<!-- News Section -->
+<section class="news">
+  <h3 class="news-title">Mejor Información, Mejor Salud</h3>
+  <div class="news-grid">
+    <div class="news-card" *ngFor="let n of noticias">
+      <img [src]="n.img" alt="Imagen de noticia" class="news-image" />
+      <div class="news-content">
+        <p class="news-date">{{ n.fecha }}</p>
+        <h4 class="news-heading">{{ n.titulo }}</h4>
+        <div class="news-meta">
+          <span>🗨️ {{ n.comentarios }}</span>
+          <span>👁️ {{ n.vistas }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div>
