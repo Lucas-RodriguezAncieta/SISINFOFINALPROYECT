@@ -52,3 +52,23 @@ input, .mat-input-element {
     }
   }
 }
+
+.snackbar-error {
+  /* Este selector ya apunta al .mat-snack-bar-container */
+  background-color: #d83e3b !important;  /* tu rojo de error */
+  color: #FFFFFF !important;             /* texto blanco */
+
+  /* El botón “Cerrar” se renderiza con la clase .mat-simple-snackbar-action */
+  .mat-simple-snackbar-action {
+    color: #4043ed !important;           /* te dejo un amarillo de ejemplo */
+  }
+}
+
+.snackbar-success {
+  background-color: #43A047 !important;  /* tu verde de éxito */
+  color: #FFFFFF !important;
+
+  .mat-simple-snackbar-action {
+    color: #FFF !important;
+  }
+}
