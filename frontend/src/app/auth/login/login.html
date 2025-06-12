@@ -1,0 +1,24 @@
+<div class="login-container">
+  <form autocomplete="off" (ngSubmit)="onLogin()">
+    <h2>Iniciar sesión</h2>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" [(ngModel)]="email" required #emailInput="ngModel">
+      <mat-error *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+        El email es requerido y debe ser válido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" name="password" [(ngModel)]="password" required minlength="6" #passwordInput="ngModel">
+      <mat-error *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+        La contraseña es requerida (mínimo 6 caracteres)
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" class="full-width-btn">Ingresar</button>
+    <div class="switch-link">
+      ¿No tienes cuenta?
+<button mat-button type="button" [routerLink]="['/signup']">Regístrate</button>
+    </div>
+  </form>
+</div>

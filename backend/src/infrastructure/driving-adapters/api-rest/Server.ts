@@ -1,5 +1,6 @@
 import express from 'express'
 import type * as http from 'http'
+import cors from 'cors'
 import routes from './routes'
 
 export class Server {
@@ -10,6 +11,12 @@ export class Server {
   constructor (port: string) {
     this._port = port
     this._app = express()
+
+    this._app.use(cors({
+      origin: 'http://localhost:4200',
+      credentials: true
+    }))
+
     this._app.use(express.json())
     this._app.use(express.urlencoded({ extended: false }))
     this._app.use(routes)

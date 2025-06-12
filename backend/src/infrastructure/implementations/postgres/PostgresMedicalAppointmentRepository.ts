@@ -82,7 +82,7 @@ export class PostgresMedicalAppointmentRepository implements MedicalAppointmentR
   }
 
   async delete (id: string): Promise<void> {
-    prisma.medicalAppointment.delete({
+    await prisma.medicalAppointment.delete({
       where: { id }
     })
   }

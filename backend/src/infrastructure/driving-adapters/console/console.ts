@@ -1,99 +1,185 @@
-import { type Hospital } from '../../../domain/entities/hospital'
-import { type Clinic } from '../../../domain/entities/clinic'
-import { type Specialty } from '../../../domain/entities/specialty'
-import { type UserType } from '../../../domain/entities/userType'
-import { type Schedule } from '../../../domain/entities/schedule'
-import { type User } from '../../../domain/entities/user'
-import { type UserClinic } from '../../../domain/entities/userClinic'
-import { type Diagnosis } from '../../../domain/entities/diagnosis'
-import { type MedicalAppointmentStatus } from '../../../domain/entities/medicalAppointmentStatus'
-import { type MedicalAppointment } from '../../../domain/entities/medicalAppointment'
-
-import { PostgresHospitalRepository } from '../../../infrastructure/implementations/postgres/PostgresHospitalRepository'
-import { PostgresClinicRepository } from '../../../infrastructure/implementations/postgres/PostgresClinicRepository'
-import { PostgresSpecialtyRepository } from '../../../infrastructure/implementations/postgres/PostgresSpecialtyRepository'
-import { PostgresUserTypeRepository } from '../../../infrastructure/implementations/postgres/PostgresUserTypeRepository'
-import { PostgresScheduleRepository } from '../../../infrastructure/implementations/postgres/PostgresScheduleRepository'
-import { PostgresUserRepository } from '../../../infrastructure/implementations/postgres/PostgresUserRepository'
-import { PostgresUserClinicRepository } from '../../../infrastructure/implementations/postgres/PostgresUserClinicRepository'
-import { PostgresDiagnosisRepository } from '../../../infrastructure/implementations/postgres/PostgresDiagnosisRepository'
-import { PostgresMedicalAppointmentStatusRepository } from '../../../infrastructure/implementations/postgres/PostgresMedicalAppointmentStatusRepository'
-import { PostgresMedicalAppointmentRepository } from '../../../infrastructure/implementations/postgres/PostgresMedicalAppointmentRepository'
-
-import { CreateHospitalUseCase } from '../../../app/usecases/hospital/CreateHospitalUseCase'
-import { CreateClinicUseCase } from '../../../app/usecases/clinic/CreateClinicUseCase'
-import { CreateSpecialtyUseCase } from '../../../app/usecases/speciality/CreateSpecialtyUseCase'
-import { CreateUserTypeUseCase } from '../../../app/usecases/userType/CreateUserTypeUseCase'
-import { CreateScheduleUseCase } from '../../../app/usecases/schedule/CreateScheduleUseCase'
-import { CreateUserUseCase } from '../../../app/usecases/user/CreateUserUseCase'
-import { CreateUserClinicUseCase } from '../../../app/usecases/userClinic/CreateUserClinicUseCase'
-import { CreateDiagnosisUseCase } from '../../../app/usecases/diagnosis/CreateDiagnosisUseCase'
-import { CreateMedicalAppointmentStatusUseCase } from '../../../app/usecases/medicalAppointmentStatus/CreateMedicalAppointmentStatusUseCase'
-import { CreateMedicalAppointmentUseCase } from '../../../app/usecases/medicalAppointment/CreateMedicalAppointmentUseCase'
-
+import { PrismaClient } from '@prisma/client'
 import { v4 as uuid } from 'uuid'
-import { GetAllUsersUseCase } from '../../../app/usecases/user/GetAllUsersUseCase'
 
-(async () => {
-  const hospital: Hospital = { id: uuid(), name: 'Santa Cruz Central Hospital' }
-  const specialty: Specialty = { id: uuid(), specialty_name: 'Pediatrics' }
-  const userType: UserType = { id: uuid(), type_name: 'Doctor' }
-  const schedule: Schedule = { id: uuid(), startTime: '08:00', endTime: '16:00' }
+const prisma = new PrismaClient()
 
-  const user: User = {
+async function main (): Promise<void> {
+  const hospitalId = uuid()
+
+  const clinicData = ['A1', 'B2', 'C3'].map(code => ({
     id: uuid(),
-    firebase_uid: 'firebase-uid-003',
-    user_type_id: userType.id,
-    specialty_id: specialty.id,
-    schedule_id: schedule.id,
-    full_name: 'Dr. John Smith',
-    phone: '77712345'
+    clinic_code: code,
+    hospital_id: hospitalId
+  }))
+
+  const specialtyData = ['Pediatrics', 'Cardiology', 'Dermatology'].map(name => ({
+    id: uuid(),
+    specialty_name: name
+  }))
+
+  const userTypeData = ['Admin', 'Patient', 'Doctor'].map(name => ({
+    id: uuid(),
+    type_name: name
+  }))
+
+  const scheduleData = [
+    { id: uuid(), startTime: '08:00', endTime: '12:00' },
+    { id: uuid(), startTime: '13:00', endTime: '17:00' },
+    { id: uuid(), startTime: '17:00', endTime: '21:00' }
+  ]
+
+  const diagnosisData = ['General Checkup', 'Skin Allergy', 'Cardiac Evaluation'].map(name => ({
+    id: uuid(),
+    diagnosis_description: name
+  }))
+
+  const statusData = ['Pending', 'Confirmed', 'Cancelled'].map(name => ({
+    id: uuid(),
+    status_name: name
+  }))
+
+  const patientId = uuid()
+  const doctorId = uuid()
+
+  // 1. Hospital
+  await prisma.hospital.create({
+    data: {
+      id: hospitalId,
+      name: 'Santa Cruz Central Hospital'
+    }
+  })
+
+  // 2. Clínicas
+  for (const clinic of clinicData) {
+    await prisma.clinic.create({ data: clinic })
   }
 
-  const clinic: Clinic = {
-    id: uuid(),
-    clinic_code: 'B12',
-    hospital_id: hospital.id
+  // 3. Especialidades
+  for (const specialty of specialtyData) {
+    await prisma.specialty.create({ data: specialty })
   }
 
-  const userClinic: UserClinic = {
-    id: uuid(),
-    user_id: user.id,
-    clinic_id: clinic.id
+  // 4. Tipos de usuario
+  for (const type of userTypeData) {
+    await prisma.userType.create({ data: type })
   }
 
-  const diagnosis: Diagnosis = {
-    id: uuid(),
-    diagnosis_description: 'General checkup'
+  // 5. Horarios
+  for (const schedule of scheduleData) {
+    await prisma.schedule.create({ data: schedule })
   }
 
-  const status: MedicalAppointmentStatus = {
-    id: uuid(),
-    status_name: 'Pending'
+  // 6. Diagnósticos
+  for (const diag of diagnosisData) {
+    await prisma.diagnosis.create({ data: diag })
   }
 
-  const appointment: MedicalAppointment = {
-    id: uuid(),
-    hospital_id: hospital.id,
-    patient_id: user.id,
-    doctor_id: user.id,
-    diagnosis_id: diagnosis.id,
-    appointment_status_id: status.id,
-    appointment_date: new Date(),
-    appointment_time: '10:30'
+  // 7. Estados de cita médica
+  for (const status of statusData) {
+    await prisma.medicalAppointmentStatus.create({ data: status })
   }
 
-  await new CreateHospitalUseCase(new PostgresHospitalRepository()).run(hospital)
-  await new CreateSpecialtyUseCase(new PostgresSpecialtyRepository()).run(specialty)
-  await new CreateUserTypeUseCase(new PostgresUserTypeRepository()).run(userType)
-  await new CreateScheduleUseCase(new PostgresScheduleRepository()).run(schedule)
-  await new CreateUserUseCase(new PostgresUserRepository()).run(user)
-  await new CreateClinicUseCase(new PostgresClinicRepository()).run(clinic)
-  await new CreateUserClinicUseCase(new PostgresUserClinicRepository()).run(userClinic)
-  await new CreateDiagnosisUseCase(new PostgresDiagnosisRepository()).run(diagnosis)
-  await new CreateMedicalAppointmentStatusUseCase(new PostgresMedicalAppointmentStatusRepository()).run(status)
-  await new CreateMedicalAppointmentUseCase(new PostgresMedicalAppointmentRepository()).run(appointment)
+  // 8. Usuario paciente
+  await prisma.user.create({
+    data: {
+      id: patientId,
+      firebase_uid: uuid(),
+      user_type_id: userTypeData[1].id, // Patient
+      full_name: 'Juan Pérez',
+      phone: '70012345'
+    }
+  })
 
-  console.log(await new GetAllUsersUseCase(new PostgresUserRepository()).run())
-  console.log('✅ Seed completed successfully.')
-})()
+  // 9. Doctor
+  await prisma.user.create({
+    data: {
+      id: doctorId,
+      firebase_uid: uuid(),
+      user_type_id: userTypeData[2].id, // Doctor
+      specialty_id: specialtyData[0].id, // Pediatrics
+      schedule_id: scheduleData[0].id,
+      full_name: 'Dra. Laura Gómez',
+      phone: '70154321'
+    }
+  })
+
+  // 10. Relación Doctor - Clínicas
+  await prisma.userClinic.createMany({
+    data: [
+      { id: uuid(), user_id: doctorId, clinic_id: clinicData[0].id },
+      { id: uuid(), user_id: doctorId, clinic_id: clinicData[1].id }
+    ]
+  })
+
+  // 11. Relación Doctor - Hospital
+  await prisma.userHospital.create({
+    data: {
+      id: uuid(),
+      user_id: doctorId,
+      hospital_id: hospitalId
+    }
+  })
+
+  // 12. Relación Doctor - Horarios personalizados (user_schedule)
+  for (const sched of scheduleData) {
+    await prisma.userSchedule.create({
+      data: {
+        id: uuid(),
+        user_id: doctorId,
+        schedule_id: sched.id,
+        start_time: sched.startTime,
+        end_time: sched.endTime
+      }
+    })
+  }
+
+  // 13. Citas médicas
+  const now = new Date()
+  const appointments = [
+    {
+      id: uuid(),
+      hospital_id: hospitalId,
+      patient_id: patientId,
+      doctor_id: doctorId,
+      diagnosis_id: diagnosisData[0].id,
+      appointment_status_id: statusData[0].id, // Pending
+      appointment_date: now,
+      appointment_time: '09:00'
+    },
+    {
+      id: uuid(),
+      hospital_id: hospitalId,
+      patient_id: patientId,
+      doctor_id: doctorId,
+      diagnosis_id: diagnosisData[1].id,
+      appointment_status_id: statusData[1].id, // Confirmed
+      appointment_date: now,
+      appointment_time: '14:00'
+    },
+    {
+      id: uuid(),
+      hospital_id: hospitalId,
+      patient_id: patientId,
+      doctor_id: doctorId,
+      diagnosis_id: diagnosisData[2].id,
+      appointment_status_id: statusData[2].id, // Cancelled
+      appointment_date: now,
+      appointment_time: '19:00'
+    }
+  ]
+
+  for (const appt of appointments) {
+    await prisma.medicalAppointment.create({ data: appt })
+  }
+
+  console.log('✅ Se insertaron correctamente los datos de prueba.')
+}
+
+main()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(() => {
+    prisma.$disconnect()
+  })
